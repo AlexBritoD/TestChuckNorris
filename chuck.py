@@ -12,9 +12,8 @@ def handle():
         if count < 1:
             id.remove(x)   
             
-    long = len(id)
-    
-    id = set_data(id, long)    
+    if len(id) < 25:
+        id = set_data(id, len(id))    
 
     return jsonify(list(id))
 
@@ -27,7 +26,6 @@ def get_data(times):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(fetch_joke, url) for _ in range(times)]
         results = [future.result() for future in concurrent.futures.as_completed(futures)]
-        print('=============================')
         return results
     
 def set_data(id, long = 0):
