@@ -5,9 +5,7 @@ import concurrent.futures
 
 def handle():
     id = set()
-    times = 25
-    results = get_data(times)
-    id.update(results)
+    id = set_data(id)
     
     for x in id:
         count = list(id).count(x)
@@ -29,14 +27,14 @@ def get_data(times):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(fetch_joke, url) for _ in range(times)]
         results = [future.result() for future in concurrent.futures.as_completed(futures)]
+        print('=============================')
         return results
     
-def set_data(id, long):
+def set_data(id, long = 0):
     
     while len(id) < 25:
         times = 25 - long
         results = get_data(times)
-        for x in results:
-            id.add(x)
+        id.update(results)
     
     return id
